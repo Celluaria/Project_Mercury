@@ -79,7 +79,7 @@ no.addEventListener("click", () => {
 });
 
 spaceScene.addEventListener("click", () => {
-    homeHint.innerText = "Curious people usually inspect things.";
+    homeHint.innerText = "Curious people usually INSPECT things.";
     homeHint.classList.add("visible");
 });
 
@@ -92,7 +92,7 @@ function createEmojiKeyboard() {
 
     emojiKeyboardCreated = true;
 
-    const requiredEmojis = ["🐇", "❤", "🐙"];
+    const requiredEmojis = ["🐇", "❤️", "🐙"];
 
     const randomPool = [
         "☿", "☀", "🌙", "⭐", "✨",
@@ -125,7 +125,7 @@ function showEmojiKeyboard() {
 }
 
 function handleEmojiClick(emoji, button) {
-    const sequence = ["🐇", "❤", "🐙"];
+    const sequence = ["🐇", "❤️", "🐙"];
 
     if (emoji === sequence[emojiProgress]) {
         button.classList.add("correct");
@@ -148,7 +148,7 @@ function handleEmojiClick(emoji, button) {
 function playEmojiAnimation() {
     emojiKeyboard.style.display = "none";
 
-    emojiAnimation.textContent = "🐇 ❤ 🐙";
+    emojiAnimation.textContent = "🐇 ❤️ 🐙";
     emojiAnimation.classList.remove("play");
     void emojiAnimation.offsetWidth;
     emojiAnimation.classList.add("play");
