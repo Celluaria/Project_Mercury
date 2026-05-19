@@ -235,3 +235,116 @@ h1 {
 #homeHint.visible {
     opacity: 1;
 }
+
+#emojiKeyboard {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 250, 243, .72);
+    backdrop-filter: blur(8px);
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 64px);
+    grid-template-rows: repeat(4, 64px);
+    gap: 18px;
+}
+
+.emoji-key {
+    width: 64px;
+    height: 64px;
+    border: none;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .85);
+    box-shadow: 0 10px 30px rgba(122, 75, 43, .12);
+    font-size: 34px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.emoji-key:hover {
+    transform: scale(1.12);
+    box-shadow: 0 12px 36px rgba(216, 137, 91, .22);
+}
+
+.emoji-key.correct {
+    background: #fff0f0;
+    box-shadow: 0 0 28px rgba(255, 120, 140, .55);
+}
+
+#emojiAnimation {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 6000;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    font-size: 72px;
+    background: rgba(255, 250, 243, .35);
+}
+
+#emojiAnimation.play {
+    display: flex;
+    animation: emojiFlash 1.3s forwards;
+}
+
+@keyframes emojiFlash {
+    0% {
+        opacity: 0;
+        transform: scale(.8);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(2.2);
+    }
+}
+
+#videoPage {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 7000;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.25) 0, transparent 2px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.28) 0, transparent 2px),
+        radial-gradient(circle at 50% 70%, rgba(255,255,255,.2) 0, transparent 2px),
+        radial-gradient(circle at center, #17213d 0%, #070b18 65%, #02030a 100%);
+}
+
+.stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,.7) 1px, transparent 1px);
+    background-size: 90px 90px, 140px 140px;
+    background-position: 0 0, 40px 60px;
+    animation: starsMove 18s linear infinite;
+    opacity: .8;
+}
+
+@keyframes starsMove {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-120px);
+    }
+}
