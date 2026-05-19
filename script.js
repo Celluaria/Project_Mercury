@@ -161,6 +161,12 @@ function playEmojiAnimation() {
 function openVideoPage() {
     home.style.display = "none";
     videoPage.style.display = "block";
+
+    const video = document.getElementById("mercuryTransmission");
+
+    if (video) {
+        video.play().catch(() => {});
+    }
 }
 
 document.addEventListener("keydown", (event) => {
@@ -177,20 +183,13 @@ console.clear();
 console.log(`
 Hello Yako 🐙
 
-You are curious.
+I'm glad you found your way here.
 
-That makes me happy.
-
-Celluaria 🐇 was hoping
-you would look here.
+Celluaria 🐇 was hoping you would.
 `);
 
 console.log(`
 Celluaria 🐇 travelled a very long way.
-
-Across cities.
-Across countries.
-Across oceans.
 
 And brought back a few curious things
 for Yako 🐙.
@@ -211,5 +210,4 @@ Maybe they mean something.
 
 But Celluaria 🐇 wanted to share them with Yako 🐙.
 
-☿
 `);
