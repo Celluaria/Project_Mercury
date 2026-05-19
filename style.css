@@ -1,215 +1,350 @@
-const yes = document.getElementById("yes");
-const no = document.getElementById("no");
-const orBtn = document.getElementById("or");
-
-const message = document.getElementById("message");
-const naughty = document.getElementById("naughty");
-
-const gate = document.getElementById("gate");
-const home = document.getElementById("home");
-
-const spaceScene = document.getElementById("spaceScene");
-const homeHint = document.getElementById("homeHint");
-
-const emojiKeyboard = document.getElementById("emojiKeyboard");
-const emojiGrid = document.getElementById("emojiGrid");
-const emojiAnimation = document.getElementById("emojiAnimation");
-const videoPage = document.getElementById("videoPage");
-
-let dodgeCount = 0;
-let lockedNo = false;
-let emojiKeyboardCreated = false;
-let emojiProgress = 0;
-
-function enterHome() {
-    gate.style.display = "none";
-    home.style.display = "flex";
+:root {
+    --bg: #fffaf3;
+    --ink: #4a3529;
+    --sun: #ffd56f;
+    --accent: #d8895b;
 }
 
-yes.onclick = enterHome;
+* {
+    box-sizing: border-box;
+}
 
-orBtn.onclick = () => {
-    message.innerText = "Are you really sure...? 🥺";
-};
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Georgia, serif;
+    background: radial-gradient(circle, #fffdf8, #fff5e8);
+    overflow: hidden;
+    color: var(--ink);
+}
 
-const positions = [
-    { left: "65%", top: "50%" },
-    { left: "80%", top: "50%" },
-    { left: "70%", top: "30%" },
-    { left: "82%", top: "35%" },
-    { left: "62%", top: "65%" },
-    { left: "78%", top: "65%" },
-    { left: "68%", top: "45%" },
-    { left: "84%", top: "55%" },
-    { left: "72%", top: "40%" },
-    { left: "74%", top: "50%" }
-];
+#gate {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-function dodgeNo() {
-    if (lockedNo) return;
+.popup {
+    width: 500px;
+    max-width: 90vw;
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,.1);
+}
 
-    if (dodgeCount >= 9) {
-        lockedNo = true;
-        no.style.left = "74%";
-        no.style.top = "50%";
-        return;
+h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+.bunny {
+    margin-bottom: 15px;
+}
+
+.bunny img {
+    width: 220px;
+    max-width: 80%;
+    user-select: none;
+    pointer-events: none;
+}
+
+.choices {
+    position: relative;
+    margin-top: 20px;
+    height: 140px;
+}
+
+#yes,
+#or,
+#no {
+    cursor: pointer;
+    user-select: none;
+    color: var(--ink);
+}
+
+#yes {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+}
+
+#or {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    opacity: .7;
+    font-style: italic;
+}
+
+#no {
+    position: absolute;
+    left: 74%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    transition: all .15s ease;
+}
+
+#message {
+    height: 30px;
+    margin-top: 15px;
+    color: var(--accent);
+    font-size: 18px;
+}
+
+#naughty {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    color: var(--accent);
+    font-style: italic;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.show {
+    animation: naughty 1.2s forwards;
+}
+
+@keyframes naughty {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -30%);
     }
 
-    dodgeCount++;
-
-    const pos = positions[dodgeCount];
-
-    no.style.left = pos.left;
-    no.style.top = pos.top;
-    no.style.transform = "translate(-50%, -50%)";
-}
-
-no.addEventListener("mouseenter", dodgeNo);
-
-no.addEventListener("click", () => {
-    if (!lockedNo) return;
-
-    no.textContent = "YES";
-
-    naughty.classList.remove("show");
-    void naughty.offsetWidth;
-    naughty.classList.add("show");
-
-    setTimeout(enterHome, 1200);
-});
-
-spaceScene.addEventListener("click", () => {
-    homeHint.innerText = "Curious people usually inspect things.";
-    homeHint.classList.add("visible");
-});
-
-function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
-
-function createEmojiKeyboard() {
-    if (emojiKeyboardCreated) return;
-
-    emojiKeyboardCreated = true;
-
-    const requiredEmojis = ["🐇", "❤", "🐙"];
-
-    const randomPool = [
-        "☿", "☀", "🌙", "⭐", "✨",
-        "🌌", "🪐", "🌍", "🌊", "🫧",
-        "🌸", "🍓", "🍰", "🧸", "🎀",
-        "💌", "🔐", "🗝️", "🦋", "🍀"
-    ];
-
-    const chosenRandoms = shuffleArray(randomPool).slice(0, 17);
-    const allEmojis = shuffleArray([...requiredEmojis, ...chosenRandoms]);
-
-    emojiGrid.innerHTML = "";
-
-    allEmojis.forEach((emoji) => {
-        const button = document.createElement("button");
-        button.className = "emoji-key";
-        button.textContent = emoji;
-
-        button.addEventListener("click", () => {
-            handleEmojiClick(emoji, button);
-        });
-
-        emojiGrid.appendChild(button);
-    });
-}
-
-function showEmojiKeyboard() {
-    createEmojiKeyboard();
-    emojiKeyboard.style.display = "flex";
-}
-
-function handleEmojiClick(emoji, button) {
-    const sequence = ["🐇", "❤", "🐙"];
-
-    if (emoji === sequence[emojiProgress]) {
-        button.classList.add("correct");
-        emojiProgress++;
-
-        if (emojiProgress === sequence.length) {
-            playEmojiAnimation();
-        }
-
-        return;
+    20% {
+        opacity: 1;
     }
 
-    emojiProgress = 0;
-
-    document.querySelectorAll(".emoji-key").forEach((key) => {
-        key.classList.remove("correct");
-    });
-}
-
-function playEmojiAnimation() {
-    emojiKeyboard.style.display = "none";
-
-    emojiAnimation.textContent = "🐇 ❤ 🐙";
-    emojiAnimation.classList.remove("play");
-    void emojiAnimation.offsetWidth;
-    emojiAnimation.classList.add("play");
-
-    setTimeout(() => {
-        openVideoPage();
-    }, 1300);
-}
-
-function openVideoPage() {
-    home.style.display = "none";
-    videoPage.style.display = "block";
-}
-
-document.addEventListener("keydown", (event) => {
-    if (
-        event.key === "F12" ||
-        (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "i")
-    ) {
-        showEmojiKeyboard();
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -100%);
     }
-});
+}
 
-console.clear();
+#home {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background:
+        radial-gradient(circle at center, #fff8dc 0%, #fffaf3 35%, #f8e8dc 100%);
+}
 
-console.log(`
-Hello Yako 🐙
+.home-title {
+    margin-bottom: 45px;
+    font-size: clamp(30px, 5vw, 54px);
+    letter-spacing: .03em;
+    text-align: center;
+}
 
-You are curious.
+.space-scene {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    cursor: pointer;
+}
 
-That makes me happy.
+.sun {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 110px;
+    height: 110px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff7bd 0%, #ffd56f 65%, #ffc14f 100%);
+    box-shadow:
+        0 0 35px rgba(255, 213, 111, .9),
+        0 0 90px rgba(255, 213, 111, .6);
+    animation: sunBreath 3s ease-in-out infinite;
+}
 
-Celluaria 🐇 was hoping
-you would look here.
-`);
+@keyframes sunBreath {
+    0%, 100% {
+        box-shadow:
+            0 0 35px rgba(255, 213, 111, .9),
+            0 0 90px rgba(255, 213, 111, .6);
+    }
 
-console.log(`
-Celluaria 🐇 travelled a very long way.
+    50% {
+        box-shadow:
+            0 0 50px rgba(255, 213, 111, 1),
+            0 0 120px rgba(255, 213, 111, .8);
+    }
+}
 
-Across cities.
-Across countries.
-Across oceans.
+.orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 230px;
+    height: 230px;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(74, 53, 41, .25);
+    border-radius: 50%;
+    animation: orbit 5s linear infinite;
+}
 
-And brought back a few curious things
-for Yako 🐙.
-`);
+.mercury {
+    position: absolute;
+    left: 50%;
+    top: -9px;
+    width: 18px;
+    height: 18px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #9a8b7d;
+    box-shadow: 0 0 12px rgba(154, 139, 125, .7);
+}
 
-console.log(`
-///stony.jeeps.powerboats
+@keyframes orbit {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
 
-///flumes.plasmas.absorbs
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
 
-///redeems.alloy.meanders
-`);
+#homeHint {
+    margin-top: 36px;
+    min-height: 28px;
+    font-size: 18px;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity .4s ease;
+    text-align: center;
+}
 
-console.log(`
-Maybe they mean nothing.
+#homeHint.visible {
+    opacity: 1;
+}
 
-Maybe they mean something.
+#emojiKeyboard {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 250, 243, .72);
+    backdrop-filter: blur(8px);
+}
 
-But Celluaria 🐇 wanted to share them with Yako 🐙.
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 64px);
+    grid-template-rows: repeat(4, 64px);
+    gap: 18px;
+}
 
-☿
-`);
+.emoji-key {
+    width: 64px;
+    height: 64px;
+    border: none;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .85);
+    box-shadow: 0 10px 30px rgba(122, 75, 43, .12);
+    font-size: 34px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.emoji-key:hover {
+    transform: scale(1.12);
+    box-shadow: 0 12px 36px rgba(216, 137, 91, .22);
+}
+
+.emoji-key.correct {
+    background: #fff0f0;
+    box-shadow: 0 0 28px rgba(255, 120, 140, .55);
+}
+
+#emojiAnimation {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 6000;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    font-size: 72px;
+    background: rgba(255, 250, 243, .35);
+}
+
+#emojiAnimation.play {
+    display: flex;
+    animation: emojiFlash 1.3s forwards;
+}
+
+@keyframes emojiFlash {
+    0% {
+        opacity: 0;
+        transform: scale(.8);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(2.2);
+    }
+}
+
+#videoPage {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 7000;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.25) 0, transparent 2px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.28) 0, transparent 2px),
+        radial-gradient(circle at 50% 70%, rgba(255,255,255,.2) 0, transparent 2px),
+        radial-gradient(circle at center, #17213d 0%, #070b18 65%, #02030a 100%);
+}
+
+.stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,.7) 1px, transparent 1px);
+    background-size: 90px 90px, 140px 140px;
+    background-position: 0 0, 40px 60px;
+    animation: starsMove 18s linear infinite;
+    opacity: .8;
+}
+
+@keyframes starsMove {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-120px);
+    }
+}
