@@ -348,3 +348,51 @@ h1 {
         transform: translateY(-120px);
     }
 }
+
+.transmission-panel {
+    position: relative;
+    z-index: 7100;
+    width: min(900px, 90vw);
+    margin: auto;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.transmission-panel h2 {
+    color: white;
+    font-weight: normal;
+    margin-bottom: 28px;
+    letter-spacing: .05em;
+}
+
+#mercuryTransmission {
+    width: 100%;
+    max-height: 65vh;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    background: black;
+    box-shadow:
+        0 0 50px rgba(255,255,255,.08),
+        0 20px 80px rgba(0,0,0,.55);
+}
+
+.transmission-button {
+    display: inline-block;
+    min-width: 280px;
+    padding: 16px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    backdrop-filter: blur(8px);
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.transmission-button:hover {
+    transform: scale(1.03);
+    background: rgba(255,255,255,.2);
+}
