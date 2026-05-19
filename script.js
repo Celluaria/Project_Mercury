@@ -197,7 +197,7 @@ for Yako 🐙.
 
 console.log(`
 
-https://reurl.cc/aXgGkZ
+https://reurl.cc/Q2gbb9
 
 `);
 
